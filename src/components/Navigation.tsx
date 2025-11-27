@@ -29,6 +29,13 @@ export const Navigation = () => {
               Public Updates
             </NavLink>
             <NavLink 
+              to="/submit-news" 
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              activeClassName="text-foreground"
+            >
+              Submit News
+            </NavLink>
+            <NavLink 
               to="/extension" 
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               activeClassName="text-foreground"
