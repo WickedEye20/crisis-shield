@@ -1,73 +1,81 @@
-# Welcome to your Lovable project
+🚨 CrisisLens – AI Crisis Misinformation Detection & Verification System
 
-## Project info
+CrisisLens is an AI-powered platform designed to detect emerging misinformation during crises (health emergencies, natural disasters, public panic incidents), verify facts using automated reasoning & trusted evidence sources, and publish clear myth-vs-fact updates for the public.
 
-**URL**: https://lovable.dev/projects/f7558f00-616f-4597-94b5-ce3d490f93da
+## ✨ Key Features
+- Manual + automated claim submission (rumors / links / screenshots)
+- AI-based verification suggestions (verdict + confidence)
+- Risk-level identification for dangerous misinformation
+- Analyst dashboard to verify & publish updates
+- Public myth-vs-fact page
+- Browser extension support for on-page fact checking
+- RAG-ready architecture for future embedding search
 
-## How can I edit this code?
+## 🧠 System Workflow
+User or Auto Submission  
+↓  
+Incoming Claims Queue  
+↓  
+AI Verification Engine (Risk + Evidence + Verdict)  
+↓  
+Analyst Review Panel  
+↓  
+Publish Myth-vs-Fact Card  
+↓  
+Public Platform & Browser Extension API  
 
-There are several ways of editing your application.
+## 🏗 Tech Stack
+- FastAPI (Python)
+- Optional React / Next.js frontend
+- Modular AI engine (pattern logic + future LLM integration)
+- In-memory DB for hackathon, PostgreSQL for production
 
-**Use Lovable**
+## ⚙ Installation & Setup
+### Requirements
+Python 3.9+
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f7558f00-616f-4597-94b5-ce3d490f93da) and start prompting.
+### Install dependencies
+pip install fastapi uvicorn[standard] python-multipart
 
-Changes made via Lovable will be committed automatically to this repo.
+### Start the backend
+uvicorn main:app --reload --port 4000
 
-**Use your preferred IDE**
+### API documentation
+http://localhost:4000/docs
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🧪 Example API Requests
+Submit a claim (POST /api/claims)
+{ "text": "Tap water in GreenCity is toxic", "url": "http://news.com/article" }
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Verify claim (POST /api/claims/{id}/verify)
 
-Follow these steps:
+Publish card (POST /api/claims/{id}/publish)
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Public results (GET /api/public/cards)
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Extension API (POST /api/extension/check)
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 📂 Project Structure
+CrisisLens/
+│── main.py
+│── README.md
+│── frontend/ (optional)
+│── extension/ (optional)
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## 🔮 Roadmap
+- v2 Authentication + PostgreSQL
+- v3 Auto ingestion feeds (Twitter, Reddit, RSS)
+- v4 RAG + vector DB (FAISS / Chroma)
+- v5 Media forensics & deepfake validation
 
-**Edit a file directly in GitHub**
+## 🎤 Hackathon Pitch Summary
+Problem: Misinformation spreads faster than truth during crises.  
+Solution: CrisisLens — real-time AI misinformation verification & truth publishing system.  
+Impact: Saves lives, reduces panic, increases trust.  
+Demo: Submit rumor → AI verifies → Publish → Public sees trusted fact.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🪪 License
+MIT License
 
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/f7558f00-616f-4597-94b5-ce3d490f93da) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+## 📬 Contact
+Team CrisisLenss
