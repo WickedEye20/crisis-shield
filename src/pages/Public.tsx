@@ -77,7 +77,7 @@ export default function Public() {
             </div>
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-3">
-            CrisisLens | Live Verified Updates
+            CrisisShield | Live Verified Updates
           </h1>
           <p className="text-xl text-muted-foreground">
             Trusted facts during emergencies

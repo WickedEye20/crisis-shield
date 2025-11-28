@@ -10,7 +10,7 @@ export const Navigation = () => {
             <div className="p-2 bg-primary rounded-xl shadow-soft">
               <Shield className="h-6 w-6 text-primary-foreground" />
             </div>
-            <span className="text-xl font-semibold text-foreground">CrisisLens</span>
+            <span className="text-xl font-semibold text-foreground">CrisisShield</span>
           </NavLink>
           
           <div className="flex items-center gap-6">

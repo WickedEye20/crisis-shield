@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* CrisisLens Light Theme - Analyst Dashboard */
+    /* CrisisShield Light Theme - Analyst Dashboard */
     --background: 215 30% 97%;
     --foreground: 222 47% 11%;
 
@@ -56,7 +56,7 @@ All colors MUST be HSL.
   }
 
   .dark {
-    /* CrisisLens Dark Theme - Public Page */
+    /* CrisisShield Dark Theme - Public Page */
     --background: 222 47% 7%;
     --foreground: 210 40% 98%;
 

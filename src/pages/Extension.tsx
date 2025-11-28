@@ -27,7 +27,7 @@ export default function Extension() {
                   {/* Extension Header */}
                   <div className="bg-primary p-4 flex items-center gap-2">
                     <Shield className="h-5 w-5 text-primary-foreground" />
-                    <span className="font-semibold text-primary-foreground">CrisisLens</span>
+                    <span className="font-semibold text-primary-foreground">CrisisShield</span>
                   </div>
 
                   {/* Extension Content */}
@@ -84,7 +84,7 @@ export default function Extension() {
             <ol className="space-y-3 text-foreground">
               <li className="flex gap-3">
                 <span className="font-semibold text-primary">1.</span>
-                <span>Download the CrisisLens Chrome Extension</span>
+                <span>Download the CrisisShield Chrome Extension</span>
               </li>
               <li className="flex gap-3">
                 <span className="font-semibold text-primary">2.</span>
