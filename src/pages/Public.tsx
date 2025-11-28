@@ -91,7 +91,7 @@ export default function Public() {
               key={filter.id}
               variant={activeFilter === filter.id ? "default" : "outline"}
               onClick={() => setActiveFilter(filter.id)}
-              className="font-semibold"
+              className="font-semibold text-white "
             >
               {filter.label}
             </Button>
