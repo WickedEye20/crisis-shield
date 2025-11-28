@@ -1,15 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { ClaimCard } from "@/components/ClaimCard";
 import { AnalyzeDrawer } from "@/components/AnalyzeDrawer";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { Tables } from "@/integrations/supabase/types";
+
+type Claim = Tables<"claims">;
 
 const mockClaims = [
   {
-    id: 1,
+    id: "mock-1",
     riskLevel: "high" as const,
     source: "Twitter/X",
     timestamp: "2 min ago",
     claimText: "Emergency alert: Major earthquake reported in downtown area causing widespread infrastructure collapse",
+    claim_text: "Emergency alert: Major earthquake reported in downtown area causing widespread infrastructure collapse",
     verdict: "false" as const,
     confidence: 94,
     evidence: [
@@ -17,60 +25,71 @@ const mockClaims = [
       "Local emergency services confirm no earthquake-related calls received",
       "Original post appears to be manipulated footage from 2019 event",
       "USGS real-time monitoring shows no recent earthquake activity in region"
-    ]
+    ],
+    created_at: new Date().toISOString(),
+    status: "pending" as const,
   },
-  {
-    id: 2,
-    riskLevel: "medium" as const,
-    source: "Facebook",
-    timestamp: "15 min ago",
-    claimText: "Government announces mandatory evacuation of coastal areas due to incoming hurricane",
-    verdict: "unproven" as const,
-    confidence: 67,
-    evidence: [
-      "National Hurricane Center tracking system active but no mandatory evacuation issued",
-      "Some local authorities have issued voluntary evacuation advisories",
-      "Weather patterns show storm system approaching but severity uncertain",
-      "Official government channels have not confirmed mandatory evacuation order"
-    ]
-  },
-  {
-    id: 3,
-    riskLevel: "low" as const,
-    source: "News Site",
-    timestamp: "1 hour ago",
-    claimText: "Local hospital confirms capacity to handle emergency patients during current situation",
-    verdict: "true" as const,
-    confidence: 91,
-    evidence: [
-      "Hospital spokesperson confirmed statement in press release",
-      "Facility records show adequate staffing and supplies",
-      "Emergency department operational status verified through official channels",
-      "Consistent with regional healthcare capacity assessments"
-    ]
-  },
-  {
-    id: 4,
-    riskLevel: "high" as const,
-    source: "WhatsApp",
-    timestamp: "3 hours ago",
-    claimText: "Water supply contaminated, do not drink tap water until further notice",
-    verdict: "false" as const,
-    confidence: 88,
-    evidence: [
-      "Municipal water authority reports all systems functioning normally",
-      "Latest water quality tests show no contamination",
-      "No official alerts issued by health department or water utility",
-      "Message traced to unverified source with history of spreading misinformation"
-    ]
-  }
 ];
 
 export default function Dashboard() {
-  const [selectedClaim, setSelectedClaim] = useState<typeof mockClaims[0] | null>(null);
+  const { user, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  const [selectedClaim, setSelectedClaim] = useState<Claim | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [claims, setClaims] = useState<Claim[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleAnalyze = (claim: typeof mockClaims[0]) => {
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate("/auth");
+    }
+  }, [user, authLoading, navigate]);
+
+  useEffect(() => {
+    if (user) {
+      fetchClaims();
+    }
+  }, [user]);
+
+  const fetchClaims = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("claims")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+      setClaims(data || []);
+    } catch (error: any) {
+      toast({
+        title: "Error loading claims",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (authLoading || loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <p className="text-center text-muted-foreground">Loading...</p>
+        </main>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return null;
+  }
+
+  const displayClaims = claims.length > 0 ? claims : mockClaims;
+
+  const handleAnalyze = (claim: Claim) => {
     setSelectedClaim(claim);
     setDrawerOpen(true);
   };
@@ -82,33 +101,43 @@ export default function Dashboard() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Incoming Claims</h1>
-          <p className="text-muted-foreground">Review and verify crisis-related information</p>
+          <p className="text-muted-foreground">
+            {displayClaims.length} claim{displayClaims.length !== 1 ? 's' : ''} awaiting review
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {mockClaims.map((claim) => (
-            <ClaimCard
-              key={claim.id}
-              riskLevel={claim.riskLevel}
-              source={claim.source}
-              timestamp={claim.timestamp}
-              claimText={claim.claimText}
-              onAnalyze={() => handleAnalyze(claim)}
-            />
-          ))}
-        </div>
+        {displayClaims.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No claims submitted yet.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {displayClaims.map((claim) => (
+              <ClaimCard
+                key={claim.id}
+                riskLevel={(claim.risk_level as "high" | "medium" | "low") || "medium"}
+                source={claim.source_url || "User Submission"}
+                timestamp={new Date(claim.created_at || "").toLocaleString()}
+                claimText={claim.claim_text}
+                onAnalyze={() => handleAnalyze(claim)}
+              />
+            ))}
+          </div>
+        )}
       </main>
 
       <AnalyzeDrawer
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
         claim={selectedClaim ? {
-          text: selectedClaim.claimText,
-          riskLevel: selectedClaim.riskLevel,
-          verdict: selectedClaim.verdict,
-          confidence: selectedClaim.confidence,
-          evidence: selectedClaim.evidence
+          id: selectedClaim.id,
+          text: selectedClaim.claim_text,
+          riskLevel: (selectedClaim.risk_level as "high" | "medium" | "low") || "medium",
+          verdict: (selectedClaim.verdict as "true" | "false" | "unproven") || "unproven",
+          confidence: selectedClaim.confidence_score || 0,
+          evidence: selectedClaim.evidence || []
         } : null}
+        onUpdate={fetchClaims}
       />
     </div>
   );
