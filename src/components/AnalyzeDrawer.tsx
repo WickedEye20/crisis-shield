@@ -1,24 +1,19 @@
-import { useState } from "react";
 import { X, CheckCircle2, XCircle, HelpCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import { RiskLevel } from "./ClaimCard";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
 
 interface AnalyzeDrawerProps {
   open: boolean;
   onClose: () => void;
   claim: {
-    id?: string;
     text: string;
     riskLevel: RiskLevel;
     verdict: "true" | "false" | "unproven";
     confidence: number;
     evidence: string[];
   } | null;
-  onUpdate?: () => void;
 }
 
 const getVerdictIcon = (verdict: "true" | "false" | "unproven") => {
@@ -54,81 +49,8 @@ const getRiskColor = (level: RiskLevel) => {
   }
 };
 
-export const AnalyzeDrawer = ({ open, onClose, claim, onUpdate }: AnalyzeDrawerProps) => {
-  const { toast } = useToast();
-  const [loading, setLoading] = useState(false);
-
+export const AnalyzeDrawer = ({ open, onClose, claim }: AnalyzeDrawerProps) => {
   if (!claim) return null;
-
-  const handlePublish = async () => {
-    if (!claim.id) return;
-    
-    setLoading(true);
-    try {
-      const { error } = await supabase
-        .from("claims")
-        .update({
-          status: "published",
-          verdict: claim.verdict,
-          confidence_score: claim.confidence,
-          evidence: claim.evidence,
-          published_at: new Date().toISOString(),
-        })
-        .eq("id", claim.id);
-
-      if (error) throw error;
-
-      toast({
-        title: "Claim published!",
-        description: "The verified update is now visible on the public page.",
-      });
-      
-      onClose();
-      onUpdate?.();
-    } catch (error: any) {
-      toast({
-        title: "Error publishing claim",
-        description: error.message,
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleMarkUnproven = async () => {
-    if (!claim.id) return;
-    
-    setLoading(true);
-    try {
-      const { error } = await supabase
-        .from("claims")
-        .update({
-          status: "verified",
-          verdict: "unproven",
-          confidence_score: 0,
-        })
-        .eq("id", claim.id);
-
-      if (error) throw error;
-
-      toast({
-        title: "Claim marked as unproven",
-        description: "The claim has been updated.",
-      });
-      
-      onClose();
-      onUpdate?.();
-    } catch (error: any) {
-      toast({
-        title: "Error updating claim",
-        description: error.message,
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <Sheet open={open} onOpenChange={onClose}>
@@ -189,30 +111,13 @@ export const AnalyzeDrawer = ({ open, onClose, claim, onUpdate }: AnalyzeDrawerP
 
           {/* Actions */}
           <div className="flex flex-col gap-3 pt-4">
-            <Button 
-              className="w-full font-semibold" 
-              size="lg"
-              onClick={handlePublish}
-              disabled={loading}
-            >
-              {loading ? "Publishing..." : "Publish Update"}
+            <Button className="w-full font-semibold" size="lg">
+              Publish Update
             </Button>
-            <Button 
-              variant="outline" 
-              className="w-full" 
-              size="lg"
-              onClick={handleMarkUnproven}
-              disabled={loading}
-            >
+            <Button variant="outline" className="w-full" size="lg">
               Mark Unproven
             </Button>
-            <Button 
-              variant="ghost" 
-              className="w-full" 
-              size="lg" 
-              onClick={onClose}
-              disabled={loading}
-            >
+            <Button variant="ghost" className="w-full" size="lg" onClick={onClose}>
               Close
             </Button>
           </div>

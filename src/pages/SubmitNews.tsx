@@ -8,15 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent } from "@/components/ui/card";
 import { Upload, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { z } from "zod";
-
-const submitSchema = z.object({
-  claim: z.string().trim().min(10, "Claim must be at least 10 characters").max(1000, "Claim must be less than 1000 characters"),
-  url: z.string().url("Invalid URL").optional().or(z.literal("")),
-  email: z.string().email("Invalid email").optional().or(z.literal("")),
-  name: z.string().max(100, "Name must be less than 100 characters").optional(),
-});
 
 export default function SubmitNews() {
   const [submitted, setSubmitted] = useState(false);
@@ -28,42 +19,31 @@ export default function SubmitNews() {
   const [file, setFile] = useState<File | null>(null);
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    try {
-      const validated = submitSchema.parse({ claim, url, email, name });
-      
-      const { error } = await supabase.from("claims").insert([{
-        claim_text: validated.claim,
-        source_url: validated.url || null,
-        category: (category as any) || null,
-        submitter_name: validated.name || null,
-        submitter_email: validated.email || null,
-        status: "pending",
-      }]);
-
-      if (error) throw error;
-
-      setSubmitted(true);
-      
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setSubmitted(false);
-        setClaim("");
-        setUrl("");
-        setCategory("");
-        setName("");
-        setEmail("");
-        setFile(null);
-      }, 3000);
-    } catch (error: any) {
+    if (!claim.trim()) {
       toast({
-        title: "Submission failed",
-        description: error.message || "Please check your information and try again.",
+        title: "Claim required",
+        description: "Please enter the claim or rumor you want to verify.",
         variant: "destructive",
       });
+      return;
     }
+
+    // Simulate submission
+    setSubmitted(true);
+    
+    // Reset form after 3 seconds
+    setTimeout(() => {
+      setSubmitted(false);
+      setClaim("");
+      setUrl("");
+      setCategory("");
+      setName("");
+      setEmail("");
+      setFile(null);
+    }, 3000);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
