@@ -1,6 +1,6 @@
-🚨 CrisisLens – AI Crisis Misinformation Detection & Verification System
+🚨 CrisisShield – Multimodel Agentic Crisis Verifier
 
-CrisisLens is an AI-powered platform designed to detect emerging misinformation during crises (health emergencies, natural disasters, public panic incidents), verify facts using automated reasoning & trusted evidence sources, and publish clear myth-vs-fact updates for the public.
+CrisisShield is an AI-powered platform designed to detect emerging misinformation during crises (health emergencies, natural disasters, public panic incidents), verify facts using automated reasoning & trusted evidence sources, and publish clear myth-vs-fact updates for the public.
 
 ## ✨ Key Features
 - Manual + automated claim submission (rumors / links / screenshots)
@@ -56,7 +56,7 @@ Public results (GET /api/public/cards)
 Extension API (POST /api/extension/check)
 
 ## 📂 Project Structure
-CrisisLens/
+CrisisShield/
 │── main.py
 │── README.md
 │── frontend/ (optional)
@@ -70,7 +70,7 @@ CrisisLens/
 
 ## 🎤 Hackathon Pitch Summary
 Problem: Misinformation spreads faster than truth during crises.  
-Solution: CrisisLens — real-time AI misinformation verification & truth publishing system.  
+Solution: CrisisShield — real-time AI misinformation verification & truth publishing system.  
 Impact: Saves lives, reduces panic, increases trust.  
 Demo: Submit rumor → AI verifies → Publish → Public sees trusted fact.
 
@@ -78,4 +78,4 @@ Demo: Submit rumor → AI verifies → Publish → Public sees trusted fact.
 MIT License
 
 ## 📬 Contact
-Team CrisisLenss
+Team CrisisShield
