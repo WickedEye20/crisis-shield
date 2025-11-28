@@ -14,16 +14,139 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      claims: {
+        Row: {
+          analyzed_by: string | null
+          category: Database["public"]["Enums"]["claim_category"] | null
+          claim_text: string
+          confidence_score: number | null
+          created_at: string | null
+          evidence: string[] | null
+          explanation: string | null
+          id: string
+          image_url: string | null
+          published_at: string | null
+          recommended_action: string | null
+          risk_level: Database["public"]["Enums"]["risk_level"] | null
+          source_url: string | null
+          status: Database["public"]["Enums"]["claim_status"] | null
+          submitter_email: string | null
+          submitter_name: string | null
+          updated_at: string | null
+          verdict: Database["public"]["Enums"]["verdict_type"] | null
+        }
+        Insert: {
+          analyzed_by?: string | null
+          category?: Database["public"]["Enums"]["claim_category"] | null
+          claim_text: string
+          confidence_score?: number | null
+          created_at?: string | null
+          evidence?: string[] | null
+          explanation?: string | null
+          id?: string
+          image_url?: string | null
+          published_at?: string | null
+          recommended_action?: string | null
+          risk_level?: Database["public"]["Enums"]["risk_level"] | null
+          source_url?: string | null
+          status?: Database["public"]["Enums"]["claim_status"] | null
+          submitter_email?: string | null
+          submitter_name?: string | null
+          updated_at?: string | null
+          verdict?: Database["public"]["Enums"]["verdict_type"] | null
+        }
+        Update: {
+          analyzed_by?: string | null
+          category?: Database["public"]["Enums"]["claim_category"] | null
+          claim_text?: string
+          confidence_score?: number | null
+          created_at?: string | null
+          evidence?: string[] | null
+          explanation?: string | null
+          id?: string
+          image_url?: string | null
+          published_at?: string | null
+          recommended_action?: string | null
+          risk_level?: Database["public"]["Enums"]["risk_level"] | null
+          source_url?: string | null
+          status?: Database["public"]["Enums"]["claim_status"] | null
+          submitter_email?: string | null
+          submitter_name?: string | null
+          updated_at?: string | null
+          verdict?: Database["public"]["Enums"]["verdict_type"] | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          full_name: string | null
+          id: string
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "analyst" | "admin" | "user"
+      claim_category:
+        | "health"
+        | "disaster"
+        | "weather"
+        | "crime"
+        | "government"
+        | "other"
+      claim_status: "pending" | "analyzing" | "verified" | "published"
+      risk_level: "high" | "medium" | "low"
+      verdict_type: "true" | "false" | "unproven"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +273,19 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["analyst", "admin", "user"],
+      claim_category: [
+        "health",
+        "disaster",
+        "weather",
+        "crime",
+        "government",
+        "other",
+      ],
+      claim_status: ["pending", "analyzing", "verified", "published"],
+      risk_level: ["high", "medium", "low"],
+      verdict_type: ["true", "false", "unproven"],
+    },
   },
 } as const
