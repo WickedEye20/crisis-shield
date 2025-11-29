@@ -1,81 +1,122 @@
-🚨 CrisisShield – Multimodel Agentic Crisis Verifier
+# CrisisLens Frontend – UI for AI Crisis Misinformation Detection & Verification
 
-CrisisShield is an AI-powered platform designed to detect emerging misinformation during crises (health emergencies, natural disasters, public panic incidents), verify facts using automated reasoning & trusted evidence sources, and publish clear myth-vs-fact updates for the public.
+This is the frontend interface for CrisisLens, an AI-powered platform used to monitor crisis-related misinformation, verify facts, and publish myth-vs-fact updates for public safety.
 
-## ✨ Key Features
-- Manual + automated claim submission (rumors / links / screenshots)
-- AI-based verification suggestions (verdict + confidence)
-- Risk-level identification for dangerous misinformation
-- Analyst dashboard to verify & publish updates
-- Public myth-vs-fact page
-- Browser extension support for on-page fact checking
-- RAG-ready architecture for future embedding search
+## ✨ Features
 
-## 🧠 System Workflow
-User or Auto Submission  
-↓  
-Incoming Claims Queue  
-↓  
-AI Verification Engine (Risk + Evidence + Verdict)  
-↓  
-Analyst Review Panel  
-↓  
-Publish Myth-vs-Fact Card  
-↓  
-Public Platform & Browser Extension API  
+- Submit news, rumors, links, or screenshots for verification  
+- Dashboard to view incoming claims  
+- Analyze panel to review AI-generated verdicts and confidence  
+- Publish verified myth-vs-fact cards  
+- Public page displaying verified updates  
+- Mobile responsive UI  
+- Extension UI preview for quick fact check  
 
 ## 🏗 Tech Stack
-- FastAPI (Python)
-- Optional React / Next.js frontend
-- Modular AI engine (pattern logic + future LLM integration)
-- In-memory DB for hackathon, PostgreSQL for production
 
-## ⚙ Installation & Setup
-### Requirements
-Python 3.9+
+- Framework: React or Next.js  
+- Styling: Tailwind CSS / Material UI / Chakra UI (choose one)  
+- State Management: Context API or Redux (optional)  
+- HTTP Client: Axios / Fetch API  
+- Build & Deployment: Vercel / Netlify  
 
-### Install dependencies
-pip install fastapi uvicorn[standard] python-multipart
+## 📁 Frontend Folder Structure
 
-### Start the backend
-uvicorn main:app --reload --port 4000
-
-### API documentation
-http://localhost:4000/docs
-
-## 🧪 Example API Requests
-Submit a claim (POST /api/claims)
-{ "text": "Tap water in GreenCity is toxic", "url": "http://news.com/article" }
-
-Verify claim (POST /api/claims/{id}/verify)
-
-Publish card (POST /api/claims/{id}/publish)
-
-Public results (GET /api/public/cards)
-
-Extension API (POST /api/extension/check)
-
-## 📂 Project Structure
-CrisisShield/
-│── main.py
+```text
+frontend/
+│── src/
+│   │── pages/        # screens: dashboard, analyze, public, submit
+│   │── components/   # cards, buttons, layout, badges
+│   │── services/     # API calls
+│   │── context/      # state management (optional)
+│   │── assets/       # icons, images
+│── public/
+│── package.json
 │── README.md
-│── frontend/ (optional)
-│── extension/ (optional)
+🖥 Key Screens / Pages
+Dashboard Screen
+List incoming claims
 
-## 🔮 Roadmap
-- v2 Authentication + PostgreSQL
-- v3 Auto ingestion feeds (Twitter, Reddit, RSS)
-- v4 RAG + vector DB (FAISS / Chroma)
-- v5 Media forensics & deepfake validation
+Actions: Analyze / Publish / View
 
-## 🎤 Hackathon Pitch Summary
-Problem: Misinformation spreads faster than truth during crises.  
-Solution: CrisisShield — real-time AI misinformation verification & truth publishing system.  
-Impact: Saves lives, reduces panic, increases trust.  
-Demo: Submit rumor → AI verifies → Publish → Public sees trusted fact.
+Analyze Drawer
+Claim details
 
-## 🪪 License
+AI verdict + confidence
+
+Evidence list
+
+Controls: Publish / Mark Unproven / Close
+
+Submit News Page
+Submit rumor text
+
+Add link or screenshot
+
+Category selection
+
+Submit button
+
+Public Myth-vs-Fact Page
+Claim headline
+
+Verdict badge
+
+Confidence %
+
+Explanation + Calls to Action
+
+Mobile Responsive Page
+Card view layout for myth-vs-fact
+
+Chrome Extension UI
+Selected text display
+
+Verdict result
+
+CTA to open full page
+
+🔌 Connecting to Backend API (Frontend Responsibilities)
+The frontend is responsible for:
+
+Fetching the claim list
+
+Submitting new claims
+
+Triggering verification requests
+
+Publishing fact cards
+
+Fetching public cards
+
+All of these will be done via HTTP calls (Axios or Fetch) to the backend API.
+
+🎨 Suggested UI Design
+Theme: Clean, modern, Apple-style minimal
+
+Primary color: Blue (#2563EB)
+
+Dark theme for public page: Navy (#0F172A)
+
+Components: Rounded, soft shadows, large spacing
+
+Typography: Inter / SF Pro / Poppins
+
+🌍 Deployment
+Next.js via Vercel
+Push the repo to GitHub.
+
+Import into Vercel.
+
+Configure NEXT_PUBLIC_API_BASE_URL (or similar) to point to the backend.
+
+React via Netlify
+Run npm run build.
+
+Deploy the build/ folder to Netlify.
+
+🪪 License
 MIT License
 
-## 📬 Contact
-Team CrisisShield
+📬 Contact (Example)
+Team CrisisLens
