@@ -22,7 +22,6 @@ This is the frontend interface for CrisisLens, an AI-powered platform used to mo
 
 ## 📁 Frontend Folder Structure
 
-```text
 frontend/
 │── src/
 │   │── pages/        # screens: dashboard, analyze, public, submit
@@ -33,50 +32,36 @@ frontend/
 │── public/
 │── package.json
 │── README.md
-🖥 Key Screens / Pages
+
+## 🖥 Key Screens / Pages
 Dashboard Screen
 List incoming claims
 
-Actions: Analyze / Publish / View
+## Actions: Analyze / Publish / View
 
 Analyze Drawer
 Claim details
-
 AI verdict + confidence
-
 Evidence list
-
 Controls: Publish / Mark Unproven / Close
-
 Submit News Page
 Submit rumor text
-
 Add link or screenshot
-
 Category selection
-
 Submit button
-
 Public Myth-vs-Fact Page
 Claim headline
-
 Verdict badge
-
 Confidence %
-
 Explanation + Calls to Action
-
 Mobile Responsive Page
 Card view layout for myth-vs-fact
-
 Chrome Extension UI
 Selected text display
-
 Verdict result
-
 CTA to open full page
 
-🔌 Connecting to Backend API (Frontend Responsibilities)
+## 🔌 Connecting to Backend API (Frontend Responsibilities)
 The frontend is responsible for:
 
 Fetching the claim list
@@ -91,7 +76,7 @@ Fetching public cards
 
 All of these will be done via HTTP calls (Axios or Fetch) to the backend API.
 
-🎨 Suggested UI Design
+## 🎨 Suggested UI Design
 Theme: Clean, modern, Apple-style minimal
 
 Primary color: Blue (#2563EB)
@@ -102,7 +87,7 @@ Components: Rounded, soft shadows, large spacing
 
 Typography: Inter / SF Pro / Poppins
 
-🌍 Deployment
+## 🌍 Deployment
 Next.js via Vercel
 Push the repo to GitHub.
 
